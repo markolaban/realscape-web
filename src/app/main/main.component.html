@@ -1,0 +1,19 @@
+<div fxLayout="column" fxFlexFill>
+    <div fxFlex>
+        <mat-toolbar color="primary">
+            <div fxLayout="row" fxLayoutGap="5px">
+              <nav mat-tab-nav-bar >
+                  <ng-container  *ngFor="let app of apps">
+                      <ng-container [ngSwitch]="app!.type!.name">
+                        <app-rn-login-view [login]="app" [button]="true" *ngSwitchCase="'LoginApp'"></app-rn-login-view>
+                        <button mat-flat-button color="primary" routerLinkActive="nav-active" routerLink="/items/{{app.id}}" *ngSwitchDefault>{{app.name}}</button>
+                      </ng-container>
+                  </ng-container>
+                </nav>
+            </div>
+        </mat-toolbar>
+    </div>
+    <div fxFlex>
+        <router-outlet></router-outlet> 
+    </div>
+</div>

@@ -1,0 +1,13 @@
+<ng-container *ngIf="!button">
+    <div fxFlex fxLayoutAlign="center center" *ngIf="isLoggedIn()">
+        <button mat-mini-fab color="primary" (click)="doLogin()"><mat-icon>key</mat-icon></button>
+    </div>
+    <div fxFlex fxLayoutAlign="center center" *ngIf="!isLoggedIn()">
+        <button mat-mini-fab color="primary" (click)="doLogout()"><mat-icon>key_off</mat-icon></button>
+    </div>
+</ng-container>
+<ng-container *ngIf="button">
+    <button mat-flat-button color="primary" (click)="doLogin()" *ngIf="!isLoggedIn()">Login</button>
+    <button mat-flat-button color="primary" (click)="doLogout()" *ngIf="isLoggedIn()">Logout</button>
+</ng-container>
+
