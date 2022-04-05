@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RnViewsViewComponent } from './rn-views-view.component';
+import { RnBoardViewComponent } from './rn-board-view.component';
 
-describe('RnViewsViewComponent', () => {
-  let component: RnViewsViewComponent;
-  let fixture: ComponentFixture<RnViewsViewComponent>;
+describe('RnBoardViewComponent', () => {
+  let component: RnBoardViewComponent;
+  let fixture: ComponentFixture<RnBoardViewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RnViewsViewComponent ]
+      declarations: [ RnBoardViewComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RnViewsViewComponent);
+    fixture = TestBed.createComponent(RnBoardViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HomeViewComponent } from './home-view.component';
+import { RnPageViewComponent } from './rn-page-view.component';
 
-describe('HomeViewComponent', () => {
-  let component: HomeViewComponent;
-  let fixture: ComponentFixture<HomeViewComponent>;
+describe('RnPageViewComponent', () => {
+  let component: RnPageViewComponent;
+  let fixture: ComponentFixture<RnPageViewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ HomeViewComponent ]
+      declarations: [ RnPageViewComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HomeViewComponent);
+    fixture = TestBed.createComponent(RnPageViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,18 +1,48 @@
-
-<!--
-<div *ngIf="view!.type!.name! === 'ListView'">
-    <app-rn-list-view [items]="items"></app-rn-list-view>
-</div>
-<div *ngIf="views[0].type!.name! === 'CalendarView'">
-    I am calendarview...
-</div>
--->
 <ng-container [ngSwitch]="view!.type!.name!">
     <div *ngSwitchCase="'ListView'">
         <app-rn-list-view [items]="items"></app-rn-list-view>
     </div>
     <div *ngSwitchCase="'CalendarView'">
-        I am calendar
+        <app-rn-calendar-view></app-rn-calendar-view>
+    </div>
+    <div *ngSwitchCase="'BoardView'">
+      <app-rn-board-view></app-rn-board-view>
+    </div>
+    <div *ngSwitchCase="'DocumentView'">
+      <app-rn-document-view></app-rn-document-view>
+    </div>
+    <div *ngSwitchCase="'DrawingView'">
+      <app-rn-drawing-view></app-rn-drawing-view>
+    </div>
+    <div *ngSwitchCase="'ImageView'">
+      <app-rn-image-view></app-rn-image-view>
+    </div>
+    <div *ngSwitchCase="'VideoView'">
+      <app-rn-video-view></app-rn-video-view>
+    </div>
+    <div *ngSwitchCase="'MapView'">
+      <app-rn-map-view></app-rn-map-view>
+    </div>
+    <div *ngSwitchCase="'PageView'">
+      <app-rn-page-view></app-rn-page-view>
+    </div>
+    <div *ngSwitchCase="'PanelView'">
+      <app-rn-panel-view></app-rn-panel-view>
+    </div>
+    <div *ngSwitchCase="'SceneView'">
+      <app-rn-scene-view></app-rn-scene-view>
+    </div>
+    <div *ngSwitchCase="'PropertiesView'">
+      <app-rn-properties-view></app-rn-properties-view>
+    </div>
+    <div *ngSwitchCase="'QueryView'">
+      <app-rn-query-view></app-rn-query-view>
+    </div>
+    <div *ngSwitchCase="'CardsView'">
+      <app-rn-cards-view></app-rn-cards-view>
+    </div>
+    <div *ngSwitchCase="'TreeView'">
+      <app-rn-tree-view></app-rn-tree-view>
     </div>
     <!--
         <ng-container [ngSwitch]="view.type">

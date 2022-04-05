@@ -1,4 +1,4 @@
-import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { Item, ItemService } from '../services/item.service';
 import { MatTableDataSource } from "@angular/material/table";
 import { MatDialog } from '@angular/material/dialog';
@@ -8,7 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
   templateUrl: './rn-list-view.component.html',
   styleUrls: ['./rn-list-view.component.sass']
 })
-export class RnListViewComponent implements OnInit {
+export class RnListViewComponent implements OnInit, OnChanges {
 
   @Input() items: Item[] = []
   dataSource = new MatTableDataSource<any>(this.items);
@@ -19,7 +19,14 @@ export class RnListViewComponent implements OnInit {
               public dialog: MatDialog) { }
 
   ngOnInit() {
+    console.log(this.items);
     this.dataSource.data = this.items;
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes['items']) {
+      this.dataSource.data = this.items;
+    }
   }
 
   refresh() {

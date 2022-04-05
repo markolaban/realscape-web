@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import { Item, ItemService } from '../services/item.service';
+
+import {FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-rn-item-view',
@@ -7,9 +11,167 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RnItemViewComponent implements OnInit {
 
-  constructor() { }
+  @Input() id?: string;
+  @Input() item?: Item;
+  @Input() items: Item[] = [];
+  @Input() children: Item[] = [];
+  @Input() views: Item[] = [];
+  @Input() query?: Item;
+
+  @Input() allowAddingItems = false;
+  @Input() allowAddingViews = false;
+  @Input() allowEditingViews = false;
+
+  selectedView = new FormControl(0);
+
+  constructor(private itemService: ItemService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('id');
+      if(id && (!this.item || id != this.id)) {
+        this.itemService.getItem(id).subscribe(item => {
+          this.id = item.id;  
+          this.item = item;
+          this.itemService.children(id).subscribe(children => {
+            this.children = children;
+            this.views = this.children.filter(child => child.type!.name!.endsWith("View"));
+            this.query = this.children.find(child => {
+              if (child) {
+                return child.type!.name!.endsWith("Query");
+              } else {
+                return false;
+              }
+            });
+            if(this.query) {
+                this.itemService.items(this.query.attributes!).subscribe(items => {
+                  this.items = items;
+                });
+            }
+          });
+        });
+      }
+    });
+  }
+
+  refresh(): void {
+
+  }
+
+  onChangeTab(event: any) {
+    //this.selectedTab = event.index;
+  }
+
+  onEditView(index: number) {
+    /*
+    const view = this.views[index];
+
+    const dialogRef = this.dialog.open(EditViewComponent, {
+      width: '400px',
+      data: view
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.views[index] = result;
+        this.onSaveViews();
+      }
+    });
+    */
+  }
+
+  onDeleteView(index: number) {
+    //this.views.splice(index, 1);
+    //this.onSaveViews();
+  }
+
+  onAddView(event: any) {
+    /*
+    const dialogRef = this.dialog.open(EditViewComponent, {
+      width: '400px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.views.push(result);
+        this.selectedView.setValue(this.views.length - 1);
+        this.onSaveViews();
+      }
+    });
+    */
+  }
+
+  onSaveViews() {
+    /*
+    if (this.item && (this.allowAddingViews || this.allowEditingViews)) {
+      const props = Object.assign(this.item.attributes || {}, { views: this.views });
+      this.itemService.update(this.item.id, {properties: props}).subscribe(res => {
+        this.refresh();
+      });
+    } else {
+      this.refresh();
+    }*/
+  }
+
+  onCenterChanged(event: any) {
+    //console.log('onCenterChanged', event);
+    //this.center = event;
+  }
+
+  onAdd(event: any): void {
+    //this.addItem({});
+  }
+
+  addItem(options: any) {
+    //console.log(event);
+    /*
+    if (this.canAddItem()) {
+
+      const createData = {};
+
+      if (options['valid_from']) {
+        createData['valid_from'] = options['valid_from'];
+      }
+
+      if (options['status']) {
+        createData['status'] = options['status'];
+      }
+
+      const dialogRef = this.dialog.open(CreateItemComponent, {
+        width: '400px',
+        data: createData
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.uploading = true;
+
+          if (result.file) {
+            this.uploadingFile = true;
+            this.uploadProgress = 0;
+          }
+
+          this.itemService.create(result, (progress) => { this.uploadProgress = progress }).subscribe(
+            (res) => {
+              if (res && res['id']) {
+                console.log(`Success created item id: ${res['id']}`);
+              }
+            },
+            (err) => {
+              this.uploadingFile = false;
+              this.uploadProgress = 0;
+              this.uploading = false;
+              this.snackBar.open(err['error']['Error'], 'Dismiss');
+            },
+            () => {
+              this.uploadingFile = false;
+              this.uploadProgress = 0;
+              this.uploading = false;
+              this.refresh();
+            });
+        }
+      });
+    }*/
   }
 
 }
