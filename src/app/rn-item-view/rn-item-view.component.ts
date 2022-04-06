@@ -1,6 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
 import { Item, ItemService } from '../services/item.service';
+import { SessionService } from '../services/session.service';
 
 import {FormControl} from "@angular/forms";
 
@@ -9,7 +11,7 @@ import {FormControl} from "@angular/forms";
   templateUrl: './rn-item-view.component.html',
   styleUrls: ['./rn-item-view.component.sass']
 })
-export class RnItemViewComponent implements OnInit {
+export class RnItemViewComponent implements OnInit, OnDestroy {
 
   @Input() id?: string;
   @Input() item?: Item;
@@ -18,44 +20,62 @@ export class RnItemViewComponent implements OnInit {
   @Input() views: Item[] = [];
   @Input() query?: Item;
 
-  @Input() allowAddingItems = false;
-  @Input() allowAddingViews = false;
-  @Input() allowEditingViews = false;
+  @Input() allowAddingItems = true;
+  @Input() allowAddingViews = true;
+  @Input() allowEditingViews = true;
+
+  subscription?: Subscription;
 
   selectedView = new FormControl(0);
 
-  constructor(private itemService: ItemService, private route: ActivatedRoute) { }
+  constructor(private itemService: ItemService, 
+              private sessionService: SessionService, 
+              private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
       if(id && (!this.item || id != this.id)) {
-        this.itemService.getItem(id).subscribe(item => {
-          this.id = item.id;  
-          this.item = item;
-          this.itemService.children(id).subscribe(children => {
-            this.children = children;
-            this.views = this.children.filter(child => child.type!.name!.endsWith("View"));
-            this.query = this.children.find(child => {
-              if (child) {
-                return child.type!.name!.endsWith("Query");
-              } else {
-                return false;
-              }
-            });
-            if(this.query) {
-                this.itemService.items(this.query.attributes!).subscribe(items => {
-                  this.items = items;
-                });
-            }
-          });
+        this.subscription = this.sessionService.refreshed$.subscribe(
+          () => {
+            this.refresh(id);
         });
+        this.refresh(id);
       }
     });
   }
 
-  refresh(): void {
+  ngOnDestroy() {
+    // prevent memory leak when component destroyed
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
+  refresh(id: string): void {
+    this.itemService.getItem(id).subscribe(item => {
+      this.id = item.id;  
+      this.item = item;
+      this.sessionService.activateItem(item);
+      this.itemService.children(id).subscribe(children => {
+        this.children = children.filter(child => !child.type!.name!.endsWith("View"));
+        this.views = children.filter(child => child.type!.name!.endsWith("View"));
+        this.query = this.children.find(child => {
+          if (child) {
+            return child.type!.name!.endsWith("Query");
+          } else {
+            return false;
+          }
+        });
+        if(this.query) {
+            this.itemService.items(this.query.attributes!).subscribe(items => {
+              this.items = items;
+            });
+        } else {
+          this.items = this.children;
+        }
+      });
+    });
   }
 
   onChangeTab(event: any) {

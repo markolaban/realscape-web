@@ -7,7 +7,7 @@
     </div>
 </ng-container>
 <ng-container *ngIf="button">
-    <button mat-flat-button color="primary" (click)="doLogin()" *ngIf="!isLoggedIn()">Login</button>
-    <button mat-flat-button color="primary" (click)="doLogout()" *ngIf="isLoggedIn()">Logout</button>
+    <button mat-menu-item color="primary" (click)="doLogin()" *ngIf="!isLoggedIn()"><mat-icon>key</mat-icon><span>Login</span></button>
+    <button mat-menu-item color="primary" (click)="doLogout()" *ngIf="isLoggedIn()"><mat-icon>key_off</mat-icon><span>Logout</span></button>
 </ng-container>
 

@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -19,8 +21,17 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
+import { MatDividerModule} from '@angular/material/divider';
+import { MatSliderModule } from '@angular/material/slider';
+
+import { QRCodeModule } from 'angularx-qrcode';
 
 
 import { CallbackComponent } from './callback/callback.component';
@@ -43,6 +54,17 @@ import { RnSceneViewComponent } from './rn-scene-view/rn-scene-view.component';
 import { RnPropertiesViewComponent } from './rn-properties-view/rn-properties-view.component';
 import { RnCardsViewComponent } from './rn-cards-view/rn-cards-view.component';
 import { RnTreeViewComponent } from './rn-tree-view/rn-tree-view.component';
+import { RnButtonViewComponent } from './rn-button-view/rn-button-view.component';
+import { RnLabelViewComponent } from './rn-label-view/rn-label-view.component';
+import { EditItemComponent } from './edit-item/edit-item.component';
+import { CreateItemComponent } from './create-item/create-item.component';
+import { EditViewComponent } from './edit-view/edit-view.component';
+import { LocationComponent } from './location/location.component';
+import { ScheduleItemComponent } from './schedule-item/schedule-item.component';
+import { MatSelectModule } from '@angular/material/select';
+import { EditQueryComponent } from './edit-query/edit-query.component';
+import { QrCodeComponent } from './qr-code/qr-code.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
 @NgModule({
@@ -68,10 +90,21 @@ import { RnTreeViewComponent } from './rn-tree-view/rn-tree-view.component';
     RnSceneViewComponent,
     RnPropertiesViewComponent,
     RnCardsViewComponent,
-    RnTreeViewComponent
+    RnTreeViewComponent,
+    RnButtonViewComponent,
+    RnLabelViewComponent,
+    EditItemComponent,
+    CreateItemComponent,
+    EditViewComponent,
+    LocationComponent,
+    ScheduleItemComponent,
+    EditQueryComponent,
+    QrCodeComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
@@ -88,7 +121,18 @@ import { RnTreeViewComponent } from './rn-tree-view/rn-tree-view.component';
     MatMenuModule,
     MatTabsModule,
     MatDatepickerModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatSnackBarModule,
+    MatSlideToggleModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatOptionModule,
+    MatSelectModule,
+    MatNativeDateModule,
+    MatDividerModule,
+    MatAutocompleteModule,
+    MatSliderModule,
+    QRCodeModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi:true }

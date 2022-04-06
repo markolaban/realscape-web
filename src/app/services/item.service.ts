@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import {Service} from "./service";
 import {HttpClient, HttpParams, HttpEvent, HttpEventType} from "@angular/common/http";
 import {Observable, from, of, throwError, scheduled} from "rxjs";
 import {catchError, map, concatMap, mergeMap} from 'rxjs/operators';
@@ -103,7 +102,7 @@ export class ItemService {
     );
   }
 
-  public create(params: any, progressFn=null): Observable<Item> {
+  public create(params: any, progressFn?: (a: number) => void): Observable<Item> {
     return this.http.post<Item>(this.getEndpoint(), params).pipe(
       mergeMap((created: Item) => {
         if (params.file && !!created) {
@@ -114,7 +113,7 @@ export class ItemService {
                   let uploadProgress = Math.round(event.loaded / event.total * 100);
                   console.log(`Uploaded! ${uploadProgress}%`);
                   if (progressFn) {
-                    //progressFn(uploadProgress);
+                    progressFn(uploadProgress);
                   }
                   return created;
                 }
@@ -331,8 +330,11 @@ export class ItemService {
 }
 
 export class Type {
+  id?: string;
+  base_id?: string;
   name?: string;
   icon?: string;
+  attributes?: {[index: string]:any};
 }
 
 
